@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Members</h1>
+  
+<ul>
+  {% for x in produits %}
+    <li>Produit No {{x}} : {{ x.nom_p }} | {{ x.prix }} | {{x.qte}} | {{x.date_insert}}</li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>
