@@ -1,14 +1,74 @@
+{% load tailwind_tags %}
 <!DOCTYPE html>
-<html>
-<body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django And TailWInd Css</title>
+    {% tailwind_css %}
+</head>
+<body class="bg-slate-100 min-h-screen py-10">
+    <div class="mx-auto max-w-4xl rounded-3xl bg-white p-8 shadow-xl shadow-slate-300/40">
+        <h1 class="mb-6 text-4xl font-semibold text-slate-900">Ajouter un produit</h1>
 
-<h1><u>PRODUITS</u></h1>
-  
-<ul>
-  {% for x in produits %}
-    <li>Produit No {{x}} : {{ x.nom_p }} | {{ x.prix }} | {{x.qte}} | {{x.date_insert}}</li>
-  {% endfor %}
-</ul>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                Merci de corriger les erreurs suivantes.
+            </div>
+            {% endif %}
 
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div>
+                    {{ form.nom_p.label_tag }}
+                    {{ form.nom_p }}
+                    {% if form.nom_p.errors %}
+                    <p class="mt-2 text-sm text-red-600">{{ form.nom_p.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.prix.label_tag }}
+                    {{ form.prix }}
+                    {% if form.prix.errors %}
+                    <p class="mt-2 text-sm text-red-600">{{ form.prix.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.qte.label_tag }}
+                    {{ form.qte }}
+                    {% if form.qte.errors %}
+                    <p class="mt-2 text-sm text-red-600">{{ form.qte.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.date_insert.label_tag }}
+                    {{ form.date_insert }}
+                    {% if form.date_insert.errors %}
+                    <p class="mt-2 text-sm text-red-600">{{ form.date_insert.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full rounded-3xl py-4 text-lg font-semibold">
+                Enregistrer le produit
+            </button>
+        </form>
+    </div>
+
+    <section class="mx-auto mt-10 max-w-4xl rounded-3xl bg-white p-8 shadow-xl shadow-slate-300/40">
+        <h2 class="mb-4 text-3xl font-semibold text-slate-900">Produits enregistrés</h2>
+        <ul class="space-y-3 text-slate-700">
+            {% for x in mon_produit %}
+            <li class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <span class="font-semibold">Produit {{ x.pk }}</span> : {{ x.nom_p }} -- {{ x.prix }}€ -- {{ x.qte }} unités -- {{ x.date_insert }}
+            </li>
+            {% empty %}
+            <li class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-500">
+                Aucun produit trouvé.
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
 </body>
 </html>

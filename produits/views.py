@@ -1,11 +1,15 @@
-from django.http import HttpResponse
-from django.template import loader
-from .models import Member
+from django.shortcuts import render, redirect
+from .models import Produits
+from .forms import ProduitsForm
 
 def produits(request):
-  myproduits = produits.objects.all().values()
-  template = loader.get_template('all_members.html')
-  context = {
-    'myme': mymembers,
-  }
-  return HttpResponse(template.render(context, request))
+    if request.method == "POST":
+        form = ProduitsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    else:
+        form = ProduitsForm()
+
+    myproduits = Produits.objects.all()
+    return render(request, "index.html", context={"mon_produit": myproduits, "form": form})

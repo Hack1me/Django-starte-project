@@ -7,3 +7,9 @@ class Produits(models.Model):
     prix = models.PositiveIntegerField()
     qte = models.PositiveIntegerField()
     date_insert = models.DateField(null=True)
+
+    class Meta:
+        ordering = ['nom_p']
+
+    def __str__(self):
+        return self.nom_p
